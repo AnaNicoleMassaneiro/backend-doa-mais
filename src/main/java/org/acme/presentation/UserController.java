@@ -20,7 +20,7 @@ public class UserController {
 
     @POST
     public Response registerUser(User user) {
-        userService.registerUser(user);
+        userService.createUser(user);
         return Response.ok().build();
     }
 }

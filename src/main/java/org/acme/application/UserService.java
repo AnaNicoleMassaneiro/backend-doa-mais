@@ -4,20 +4,26 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import org.acme.domain.User;
+import org.acme.validators.UserValidator;
 
 @ApplicationScoped
 public class UserService implements PanacheRepository<User> {
-    @Transactional
-    public void registerUser(User user) {
 
-        if (user.getName() == null || user.getName().isEmpty()) {
-            throw new IllegalArgumentException("O nome do usuário é obrigatório.");
+    private final UserValidator userValidator;
+
+    public UserService(UserValidator userValidator) {
+        this.userValidator = userValidator;
+    }
+
+    public void createUser(User user) {
+        if (!userValidator.validateCpf(user.getCpf())) {
+            throw new IllegalArgumentException("CPF inválido");
         }
-
-        if (user.getEmail() == null || user.getEmail().isEmpty()) {
-            throw new IllegalArgumentException("O e-mail do usuário é obrigatório.");
+        if (!userValidator.validateEmail(user.getEmail())) {
+            throw new IllegalArgumentException("E-mail inválido");
         }
 
         persist(user);
     }
+
 }
