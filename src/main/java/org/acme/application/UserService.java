@@ -1,16 +1,15 @@
 package org.acme.application;
 
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import org.acme.domain.User;
 
 @ApplicationScoped
-public class UserService {
+public class UserService implements PanacheRepository<User> {
     @Transactional
     public void registerUser(User user) {
-        // Verifique a validade dos dados do usuário, faça validações, etc.
 
-        // Exemplo de validação de campos obrigatórios
         if (user.getName() == null || user.getName().isEmpty()) {
             throw new IllegalArgumentException("O nome do usuário é obrigatório.");
         }
@@ -19,9 +18,6 @@ public class UserService {
             throw new IllegalArgumentException("O e-mail do usuário é obrigatório.");
         }
 
-        // Outras validações...
-
-        // Registre o usuário no banco de dados usando o Panache do Quarkus
-        user.persist();
+        persist(user);
     }
 }
