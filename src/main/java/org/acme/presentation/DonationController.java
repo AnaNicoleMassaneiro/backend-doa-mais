@@ -1,0 +1,26 @@
+package org.acme.presentation;
+
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import org.acme.application.DonationService;
+import org.acme.domain.Donation;
+
+import javax.inject.Inject;
+
+@Path("/donations")
+public class DonationController {
+
+    @Inject
+    DonationService donationService;
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response scheduleDonation(Donation donation) {
+        donationService.scheduleDonation(donation);
+        return Response.ok().build();
+    }
+
+}
