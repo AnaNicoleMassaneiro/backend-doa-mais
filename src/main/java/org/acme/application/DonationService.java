@@ -4,19 +4,18 @@ import jakarta.enterprise.context.ApplicationScoped;
 import org.acme.domain.Donation;
 import org.acme.validators.DonationValidator;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
 public class DonationService {
 
-    @Inject
-    private DonationValidator donationValidator;
+    private final DonationValidator donationValidator;
 
     private List<Donation> scheduledDonations;
 
-    public DonationService() {
+    public DonationService(DonationValidator donationValidator) {
+        this.donationValidator = donationValidator;
         this.scheduledDonations = new ArrayList<>();
     }
 

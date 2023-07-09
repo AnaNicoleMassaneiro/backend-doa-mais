@@ -2,8 +2,6 @@ package org.acme.application;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.acme.domain.User;
 import org.acme.validators.UserValidator;
