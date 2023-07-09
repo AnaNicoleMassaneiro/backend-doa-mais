@@ -1,11 +1,3 @@
-#Maven
-target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-release.properties
-.flattened-pom.xml
-
 # Eclipse
 .project
 .classpath
@@ -17,7 +9,6 @@ bin/
 *.ipr
 *.iml
 *.iws
-.mvn
 
 # NetBeans
 nb-configuration.xml
@@ -37,8 +28,9 @@ nb-configuration.xml
 *.orig
 *.rej
 
-# Local environment
-.env
-
-# Plugin directory
-/.quarkus/cli/plugins/
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
