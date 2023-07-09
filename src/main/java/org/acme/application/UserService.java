@@ -68,7 +68,7 @@ public class UserService implements PanacheRepository<User> {
     }
 
     public User login(LoginDTO loginDTO) {
-        User user = userRepository.findByUsername(loginDTO.getEmail());
+        User user = userRepository.findByEmail(loginDTO.getEmail());
 
         if (user != null && user.getPassword().equals(loginDTO.getPassword())) {
             return user;
