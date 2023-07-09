@@ -2,14 +2,21 @@ package org.acme.application;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.acme.DTO.LoginDTO;
 import org.acme.domain.User;
+import org.acme.exception.AuthenticationException;
+import org.acme.repository.UserRepository;
 import org.acme.validators.UserValidator;
 
 import java.util.List;
 
 @ApplicationScoped
 public class UserService implements PanacheRepository<User> {
+
+    @Inject
+    UserRepository userRepository;
 
     private final UserValidator userValidator;
 
@@ -58,6 +65,16 @@ public class UserService implements PanacheRepository<User> {
         if (user != null) {
             delete(user);
         }
+    }
+
+    public User login(LoginDTO loginDTO) {
+        User user = userRepository.findByUsername(loginDTO.getEmail());
+
+        if (user != null && user.getPassword().equals(loginDTO.getPassword())) {
+            return user;
+        }
+
+        throw new AuthenticationException("Invalid username or password");
     }
 
 }
