@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import java.time.LocalDate;
 
 @Getter
@@ -19,7 +20,8 @@ public class Donation {
 
     private LocalDate dateDonation;
 
-    private Integer cardNumberDonor;
+    @Column(name = "cpf_donor")
+    private String cpf;
 
     private Integer hemobanco;
 }
