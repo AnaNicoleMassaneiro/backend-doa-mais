@@ -4,13 +4,20 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity
 @Getter
 @Setter
-@Entity
-public class Hemobanco {
+@Table(name = "AvailableDate")
+public class AvailableDateEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String address;
+    @Column(nullable = false)
+    private String date;
+
+    // Getters and setters...
+
+    // Constructors...
 }

@@ -1,4 +1,4 @@
-package org.acme.presentation;
+package org.acme.controller;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -7,7 +7,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.acme.DTO.LoginDTO;
-import org.acme.application.UserService;
+import org.acme.service.UserService;
 import org.acme.domain.User;
 import org.acme.exception.AuthenticationException;
 

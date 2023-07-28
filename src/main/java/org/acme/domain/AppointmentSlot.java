@@ -21,8 +21,6 @@ public class AppointmentSlot {
 
     private LocalTime time;
 
-    // Construtores, getters e setters
-
     public AppointmentSlot() {
     }
 
@@ -30,8 +28,4 @@ public class AppointmentSlot {
         this.date = date;
         this.time = time;
     }
-
-    // Getters e setters omitidos para brevidade
-
-    // Implemente os getters e setters
 }

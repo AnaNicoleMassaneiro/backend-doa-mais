@@ -1,10 +1,10 @@
-package org.acme.presentation;
+package org.acme.controller;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.acme.application.UserService;
+import org.acme.service.UserService;
 import org.acme.domain.User;
 
 import java.util.List;
