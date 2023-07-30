@@ -4,20 +4,26 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
-@Table(name = "AvailableDate")
+@Table(name = "available_date_entity")
 public class AvailableDateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String date;
+    @Column(name = "date")
+    private LocalDate date;
 
-    // Getters and setters...
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "available_date_id")
+    private List<AvailableTimeSlot> availableTimeSlots;
 
-    // Constructors...
+    // Add any other relevant properties or associations here
 }
+

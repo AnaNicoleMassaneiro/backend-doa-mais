@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
+import java.util.List;
+
 import java.util.List;
 
 @Entity
@@ -25,7 +26,7 @@ public class HemobancoDate {
 
     @ManyToOne
     @JoinColumn(name = "hemobanco_address_id")
-    private Hemobanco hemobancoAddress; // Add this field
+    private Hemobanco hemobancoAddress;
 
     public void setHemobancoAddress(Hemobanco hemobanco) {
         this.hemobancoAddress = hemobanco;
