@@ -21,7 +21,13 @@ public class HemobancoDate {
     @JoinColumn(name = "hemobanco_date_id")
     private List<AvailableDateEntity> availableDates;
 
-    // Getters and setters...
+    private Long hemobancoAddressId;
 
-    // Constructors...
+    @ManyToOne
+    @JoinColumn(name = "hemobanco_address_id")
+    private Hemobanco hemobancoAddress; // Add this field
+
+    public void setHemobancoAddress(Hemobanco hemobanco) {
+        this.hemobancoAddress = hemobanco;
+    }
 }
