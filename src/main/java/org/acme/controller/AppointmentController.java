@@ -9,6 +9,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.acme.DTO.AppointmentRequestDTO;
 import org.acme.domain.Appointment;
+import org.acme.exception.UserHasAppointmentsException;
 import org.acme.service.AppointmentService;
 
 import java.net.URI;
@@ -44,7 +45,7 @@ public class AppointmentController {
                     .build();
         } catch (Exception e) {
             // In case of an error, return status 500 Internal Server Error
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            throw new UserHasAppointmentsException("User with ID " + e.getMessage());
         }
     }
 

@@ -9,6 +9,4 @@ import java.util.List;
 @ApplicationScoped
 public class AppointmentRepository implements PanacheRepository<Appointment> {
 
-    // You can add custom methods here if needed
-
 }

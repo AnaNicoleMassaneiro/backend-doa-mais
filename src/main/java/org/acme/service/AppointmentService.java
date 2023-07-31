@@ -4,7 +4,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 import org.acme.domain.Appointment;
+import org.acme.exception.UserHasAppointmentsException;
 import org.acme.repository.AppointmentRepository;
 
 import java.time.LocalDate;
@@ -21,9 +23,19 @@ public class AppointmentService {
     @Inject
     EntityManager entityManager;
 
-    public Appointment scheduleAppointment(Appointment hemobanco) {
-        Appointment appointment = new Appointment(hemobanco.getHemobancoId(), hemobanco.getUserId(), hemobanco.getDate(), hemobanco.getTime());
-        appointmentRepository.persist(appointment);
+
+    @Transactional
+    public Appointment scheduleAppointment(Appointment appointment) throws UserHasAppointmentsException {
+        Long userId = appointment.getUserId();
+
+        List<Appointment> userAppointments = getAppointmentsByUser(userId);
+
+        if(userAppointments.isEmpty()) {
+            appointmentRepository.persist(appointment);
+        } else {
+            throw new UserHasAppointmentsException("User with ID " + userId + " already has appointments scheduled.");
+        }
+
         return appointment;
     }
 
