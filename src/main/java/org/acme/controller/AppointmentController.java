@@ -49,6 +49,21 @@ public class AppointmentController {
         }
     }
 
+    @DELETE
+    @Path("/{userId}")
+    public Response cancelAppointment(@PathParam("userId") Long userId) {
+        try {
+            appointmentService.cancelAppointmentByUserId(userId);
+            return Response.ok().build(); // Return 200 OK if cancellation is successful
+        } catch (UserHasAppointmentsException e) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Appointment with ID " + userId + " not found.")
+                    .build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
     @GET
     @Path("/user/{userId}")
     public Response getAppointmentsByUser(@PathParam("userId") Long userId) {

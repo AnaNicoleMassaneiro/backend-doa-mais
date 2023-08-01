@@ -46,11 +46,24 @@ public class AppointmentService {
         return query.getResultList();
     }
 
+    @Transactional
+    public int cancelAppointmentByUserId(Long userId) {
+        List<Appointment> userAppointments = getAppointmentsByUser(userId);
+        int canceledCount = 0;
+
+        for (Appointment appointment : userAppointments) {
+            appointmentRepository.delete(appointment);
+            canceledCount++;
+        }
+
+        return canceledCount;
+    }
+
+
     public Appointment getNextAppointmentForUser(Long userId) {
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
 
-        // Query the database to get the next appointment for the user
         List<Appointment> appointments = entityManager.createQuery(
                         "SELECT a FROM Appointment a WHERE a.userId = :userId " +
                                 "AND (a.date > :currentDate OR (a.date = :currentDate AND a.time > :currentTime)) " +
