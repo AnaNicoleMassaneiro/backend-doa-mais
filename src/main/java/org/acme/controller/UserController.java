@@ -4,17 +4,25 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.acme.domain.CardDetails;
+import org.acme.repository.UserRepository;
+import org.acme.service.CardDetailsService;
 import org.acme.service.UserService;
 import org.acme.domain.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class UserController {
     private final UserService userService;
+    @Inject
+    CardDetailsService cardDetailsService;
 
+    @Inject
+    UserRepository userRepository;
     @Inject
     public UserController(UserService userService) {
         this.userService = userService;
@@ -47,4 +55,5 @@ public class UserController {
         userService.deleteUser(id);
         return Response.noContent().build();
     }
+
 }

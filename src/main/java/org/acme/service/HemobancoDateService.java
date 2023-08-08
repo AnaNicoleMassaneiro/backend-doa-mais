@@ -6,13 +6,11 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
-import org.acme.domain.Hemobanco;
 import org.acme.domain.HemobancoDate;
 import org.acme.repository.HemobancoDateRepository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @ApplicationScoped
 public class HemobancoDateService {
@@ -27,8 +25,8 @@ public class HemobancoDateService {
         return dateRepository.listAll();
     }
 
-    public Optional<HemobancoDate> getDateById(Long id) {
-        return dateRepository.findByIdOptional(id);
+    public HemobancoDate getDateById(Long id) {
+        return dateRepository.findById(id);
     }
 
     @Transactional

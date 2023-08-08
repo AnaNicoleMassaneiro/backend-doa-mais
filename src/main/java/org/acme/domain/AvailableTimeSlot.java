@@ -16,8 +16,7 @@ public class AvailableTimeSlot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "time")
+    @Column(name = "time", columnDefinition = "TIME")
     private LocalTime time;
 
-    // Add any other relevant properties or associations here
 }

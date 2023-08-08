@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.acme.DTO.LoginDTO;
 import org.acme.domain.User;
 import org.acme.exception.AuthenticationException;
+import org.acme.repository.CardDetailsRepository;
 import org.acme.repository.UserRepository;
 import org.acme.validators.UserValidator;
 
@@ -17,6 +18,9 @@ public class UserService implements PanacheRepository<User> {
 
     @Inject
     UserRepository userRepository;
+
+    @Inject
+    CardDetailsRepository cardDetailsRepository;
 
     private final UserValidator userValidator;
 

@@ -24,6 +24,5 @@ public class AvailableDateEntity {
     @JoinColumn(name = "available_date_id")
     private List<AvailableTimeSlot> availableTimeSlots;
 
-    // Add any other relevant properties or associations here
 }
 

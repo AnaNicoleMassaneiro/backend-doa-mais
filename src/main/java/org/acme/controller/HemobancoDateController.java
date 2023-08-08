@@ -32,9 +32,11 @@ public class HemobancoDateController {
 
     @GET
     @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
     public HemobancoDate getDateById(@PathParam("id") Long id) {
-        return dateService.getDateById(id)
-                .orElseThrow(() -> new NotFoundException("Date with id " + id + " not found"));
+        HemobancoDate hemobancoDate = dateService.getDateById(id);
+
+        return hemobancoDate;
     }
 
     @POST
