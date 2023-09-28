@@ -6,12 +6,13 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.acme.domain.Appointment;
+import org.acme.domain.Hemobanco;
 import org.acme.exception.UserHasAppointmentsException;
 import org.acme.repository.AppointmentRepository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
@@ -22,7 +23,6 @@ public class AppointmentService {
 
     @Inject
     EntityManager entityManager;
-
 
     @Transactional
     public Appointment scheduleAppointment(Appointment appointment) throws UserHasAppointmentsException {
@@ -39,10 +39,11 @@ public class AppointmentService {
         return appointment;
     }
 
-    public List<Appointment> getAppointmentsByUser(Long userId) {
-        TypedQuery<Appointment> query = entityManager.createQuery(
-                "SELECT a FROM Appointment a WHERE a.userId = :userId", Appointment.class);
+    public List<Appointment> getAppointmentsWithHemobancoByUser(Long userId) {
+        String jpql = "SELECT a FROM Appointment a JOIN FETCH a.hemobanco WHERE a.userId = :userId";
+        TypedQuery<Appointment> query = entityManager.createQuery(jpql, Appointment.class);
         query.setParameter("userId", userId);
+
         return query.getResultList();
     }
 
@@ -59,6 +60,12 @@ public class AppointmentService {
         return canceledCount;
     }
 
+    public List<Appointment> getAppointmentsByUser(Long userId) {
+        TypedQuery<Appointment> query = entityManager.createQuery(
+                "SELECT a FROM Appointment a WHERE a.userId = :userId", Appointment.class);
+        query.setParameter("userId", userId);
+        return query.getResultList();
+    }
 
     public Appointment getNextAppointmentForUser(Long userId) {
         LocalDate currentDate = LocalDate.now();

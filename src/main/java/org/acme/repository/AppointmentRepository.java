@@ -8,4 +8,5 @@ import java.util.List;
 
 @ApplicationScoped
 public class AppointmentRepository implements PanacheRepository<Appointment> {
+
 }

@@ -9,6 +9,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.acme.DTO.AppointmentRequestDTO;
 import org.acme.domain.Appointment;
+import org.acme.domain.Hemobanco;
 import org.acme.exception.UserHasAppointmentsException;
 import org.acme.service.AppointmentService;
 
@@ -68,7 +69,7 @@ public class AppointmentController {
     @Path("/user/{userId}")
     public Response getAppointmentsByUser(@PathParam("userId") Long userId) {
         try {
-            List<Appointment> appointments = appointmentService.getAppointmentsByUser(userId);
+            List<Appointment> appointments = appointmentService.getAppointmentsWithHemobancoByUser(userId);
             return Response.ok(appointments).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
