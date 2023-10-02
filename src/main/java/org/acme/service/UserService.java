@@ -13,11 +13,18 @@ import org.acme.validators.UserValidator;
 
 import java.util.List;
 
+
 @ApplicationScoped
 public class UserService implements PanacheRepository<User> {
 
     @Inject
     UserRepository userRepository;
+
+    @Transactional
+    public User getUser(Long id) {
+        User user = findById(id);
+        return user;
+    }
 
     @Inject
     CardDetailsRepository cardDetailsRepository;
@@ -44,6 +51,7 @@ public class UserService implements PanacheRepository<User> {
     public List<User> listUsers() {
         return listAll();
     }
+
 
     public void updateUser(User user) {
         User existingUser = findById(user.getId());

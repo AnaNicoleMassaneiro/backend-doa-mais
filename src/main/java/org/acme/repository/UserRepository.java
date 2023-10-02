@@ -40,6 +40,18 @@ public class UserRepository implements PanacheRepository<User> {
         }
     }
 
+    @Transactional
+    public User findByIdTest(Long id) {
+        try {
+            String query = "SELECT u FROM User u WHERE u.id = :id";
+            return entityManager.createQuery(query, User.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
     public Optional<CardDetails> findCardDetailsByUser(User user) {
         String query = "SELECT c FROM CardDetails c WHERE c.user = :user";
         return entityManager.createQuery(query, CardDetails.class)
