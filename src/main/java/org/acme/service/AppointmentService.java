@@ -34,16 +34,27 @@ public class AppointmentService {
     @Transactional
     public Appointment scheduleAppointment(Appointment appointment) throws UserHasAppointmentsException {
         Long userId = appointment.getUserId();
+        Long hemobancoId = appointment.getHemobancoId();
 
         List<Appointment> userAppointments = getAppointmentsByUser(userId);
+        Hemobanco hemobancoAppointments = getHemobancoById(hemobancoId);
 
         if(userAppointments.isEmpty()) {
+            appointment.setHemobanco(hemobancoAppointments);
             appointmentRepository.persist(appointment);
         } else {
             throw new UserHasAppointmentsException("User with ID " + userId + " already has appointments scheduled.");
         }
 
         return appointment;
+    }
+
+    public Hemobanco getHemobancoById(Long id) {
+        String jpql = "SELECT a FROM Hemobanco a WHERE a.id = :id";
+        TypedQuery<Hemobanco> query = entityManager.createQuery(jpql, Hemobanco.class);
+        query.setParameter("id", id);
+
+        return query.getResultList().get(0);
     }
 
     public List<Appointment> getAppointmentsWithHemobancoByUser(Long userId) {
