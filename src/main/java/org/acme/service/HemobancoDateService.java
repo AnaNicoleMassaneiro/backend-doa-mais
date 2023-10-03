@@ -11,6 +11,7 @@ import org.acme.repository.HemobancoDateRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class HemobancoDateService {
@@ -25,8 +26,9 @@ public class HemobancoDateService {
         return dateRepository.listAll();
     }
 
-    public HemobancoDate getDateById(Long id) {
-        return dateRepository.findById(id);
+    @Transactional
+    public Optional<HemobancoDate> getById(Long id) {
+        return dateRepository.findByIdOptional(id);
     }
 
     @Transactional
@@ -48,7 +50,6 @@ public class HemobancoDateService {
         }
 
         date.setAvailableDates(updatedDate.getAvailableDates());
-        date.setHemobancoAddressId(updatedDate.getHemobancoAddressId());
         return dateRepository.getEntityManager().merge(date);
     }
 
@@ -60,5 +61,14 @@ public class HemobancoDateService {
 
     public void deleteDate(Long id) {
         dateRepository.deleteById(id);
+    }
+
+    public List<HemobancoDate> getByHemobancoAddressId(Long hemobancoAddressId) {
+        try {
+            return dateRepository.findByHemobancoAddressId(hemobancoAddressId);
+        } catch (Exception e) {
+            // Lide com exceções ou erros aqui
+            throw new RuntimeException("Error while fetching HemobancoDates by hemobancoAddressId", e);
+        }
     }
 }

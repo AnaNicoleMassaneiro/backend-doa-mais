@@ -20,8 +20,14 @@ public class AppointmentSlotController {
 
     @POST
     public Response createAppointmentSlot(AppointmentSlot appointmentSlot) {
-        appointmentSlotService.createAppointmentSlot(appointmentSlot);
-        return Response.status(Response.Status.CREATED).build();
+        try {
+            appointmentSlotService.createAppointmentSlot(appointmentSlot);
+            return Response.status(Response.Status.CREATED).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Erro ao criar o slot de agendamento: " + e.getMessage())
+                    .build();
+        }
     }
 
     @GET

@@ -114,4 +114,9 @@ public class AppointmentController {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @GET
+    public List<Appointment> getAllAppointmentSlots() {
+        return appointmentService.getAllAppointment();
+    }
 }

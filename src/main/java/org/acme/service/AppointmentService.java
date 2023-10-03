@@ -24,6 +24,13 @@ public class AppointmentService {
     @Inject
     EntityManager entityManager;
 
+    public List<Appointment> getAllAppointment() {
+        String jpql = "SELECT a FROM Appointment a";
+        TypedQuery<Appointment> query = entityManager.createQuery(jpql, Appointment.class);
+
+        return query.getResultList();
+    }
+
     @Transactional
     public Appointment scheduleAppointment(Appointment appointment) throws UserHasAppointmentsException {
         Long userId = appointment.getUserId();
@@ -88,4 +95,6 @@ public class AppointmentService {
             return null;
         }
     }
+
+
 }

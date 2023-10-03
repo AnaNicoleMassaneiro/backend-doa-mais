@@ -17,4 +17,6 @@ public class Hemobanco {
     private String state;
     private String zipCode;
 
+
+
 }

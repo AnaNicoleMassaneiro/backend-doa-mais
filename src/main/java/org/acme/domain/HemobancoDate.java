@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "hemobanco_date")
-public class HemobancoDate {
+public class  HemobancoDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,5 +28,9 @@ public class HemobancoDate {
 
     public void setHemobancoAddress(Hemobanco hemobanco) {
         this.hemobancoAddress = hemobanco;
+    }
+
+    public Long getHemobancoAddressId() {
+        return hemobancoAddressId;
     }
 }

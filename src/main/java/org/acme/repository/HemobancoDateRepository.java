@@ -19,4 +19,8 @@ public class HemobancoDateRepository implements PanacheRepository<HemobancoDate>
     public boolean isDateAvailableForHemobanco(Long hemobancoId, LocalDate date) {
         return find("hemobancoAddressId = ?1 and date = ?2", hemobancoId, date).count() == 0;
     }
+
+    public List<HemobancoDate> findByHemobancoAddressId(Long hemobancoAddressId) {
+        return list("hemobancoAddressId", hemobancoAddressId);
+    }
 }
