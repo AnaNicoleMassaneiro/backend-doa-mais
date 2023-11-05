@@ -9,6 +9,7 @@ import java.time.LocalTime;
 
 @Entity
 @Data
+@Table(name = "appointment")
 @NoArgsConstructor
 public class Appointment {
 
@@ -27,15 +28,10 @@ public class Appointment {
     @Column(nullable = false)
     private LocalTime time;
 
+    private boolean completed;
 
     @ManyToOne
     @JoinColumn(name = "hemobanco_Id") // Defina o nome da coluna estrangeira aqui
     private Hemobanco hemobanco;
 
-    public Appointment(Long hemobancoId, Long userId, LocalDate date, LocalTime time) {
-        this.hemobancoId = hemobancoId;
-        this.userId = userId;
-        this.date = date;
-        this.time = time;
-    }
 }

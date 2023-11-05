@@ -7,9 +7,16 @@ import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.acme.domain.Appointment;
 import org.acme.domain.Hemobanco;
+import org.acme.domain.PdfDataEntity;
+import org.acme.exception.AppointmentNotFoundException;
 import org.acme.exception.UserHasAppointmentsException;
 import org.acme.repository.AppointmentRepository;
+import org.acme.repository.PdfDataRepository;
+import org.apache.commons.io.IOUtils;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -23,6 +30,9 @@ public class AppointmentService {
 
     @Inject
     EntityManager entityManager;
+
+    @Inject
+    PdfDataRepository pdfDataRepository;
 
     public List<Appointment> getAllAppointment() {
         String jpql = "SELECT a FROM Appointment a";
@@ -39,8 +49,9 @@ public class AppointmentService {
         List<Appointment> userAppointments = getAppointmentsByUser(userId);
         Hemobanco hemobancoAppointments = getHemobancoById(hemobancoId);
 
-        if(userAppointments.isEmpty()) {
+        if (userAppointments.isEmpty()) {
             appointment.setHemobanco(hemobancoAppointments);
+            appointment.setCompleted(false); // Defina como "false" ao criar o agendamento
             appointmentRepository.persist(appointment);
         } else {
             throw new UserHasAppointmentsException("User with ID " + userId + " already has appointments scheduled.");
@@ -48,6 +59,7 @@ public class AppointmentService {
 
         return appointment;
     }
+
 
     public Hemobanco getHemobancoById(Long id) {
         String jpql = "SELECT a FROM Hemobanco a WHERE a.id = :id";
@@ -99,12 +111,39 @@ public class AppointmentService {
                 .getResultList();
 
         if (!appointments.isEmpty()) {
-            // Return the first appointment from the list (the next appointment)
             return appointments.get(0);
         } else {
-            // If no upcoming appointments are found, return null
             return null;
         }
+    }
+
+    @Transactional
+    public void markAppointmentAsCompleted(Appointment appointment) {
+        if (appointment != null) {
+            appointment.setCompleted(true);
+            appointmentRepository.persist(appointment);
+        } else {
+            throw new AppointmentNotFoundException("Appointment not found.");
+        }
+    }
+
+    @Transactional
+    public Appointment getAppointmentById(Long appointmentId) {
+        return appointmentRepository.findById(appointmentId); // Use o método estático findById do Panache
+    }
+
+    @Transactional
+    public void savePdf(InputStream pdfFileInputStream) throws IOException {
+        byte[] pdfBytes = IOUtils.toByteArray(pdfFileInputStream);
+
+        PdfDataEntity pdfDataEntity = new PdfDataEntity();
+        pdfDataEntity.setPdfBytes(pdfBytes);
+
+        pdfDataRepository.persist(pdfDataEntity);
+    }
+
+    public Appointment findAppointmentById(Long id) {
+        return entityManager.find(Appointment.class, id);
     }
 
 
