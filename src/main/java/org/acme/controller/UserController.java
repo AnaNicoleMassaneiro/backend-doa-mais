@@ -1,7 +1,9 @@
 package org.acme.controller;
 
 import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.acme.repository.UserRepository;
@@ -16,6 +18,8 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 public class UserController {
     private final UserService userService;
+    @Context
+    private HttpServletRequest request;
 
     @Inject
     CardDetailsService cardDetailsService;
@@ -43,10 +47,31 @@ public class UserController {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateUser(@PathParam("id") Long id, User updatedUser) {
-        updatedUser.setId(id);
-        userService.updateUser(updatedUser);
-        return Response.ok().build();
+        try {
+            updatedUser.setId(id);
+            userService.updateUser(updatedUser);
+            return Response.ok().build();
+        } catch (NotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+        } catch (IllegalArgumentException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
     }
+
+    @POST
+    @Path("/logout")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response logout() {
+        try {
+            // Invalidate the user session or perform any necessary logout actions
+            request.getSession().invalidate();
+
+            return Response.ok().build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Logout failed").build();
+        }
+    }
+
 
     @GET
     @Path("/{id}")

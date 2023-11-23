@@ -25,4 +25,3 @@ public class CardDetails extends PanacheEntity {
     @Column
     private String bloodType;
 }
-
